@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sannan The Traveller - Adventure and Travel</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700|Manrope:400,500,700|Forum&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            height: 100%;
+            overflow: hidden;
+        }
+        .header {
+            position: fixed;
+            top: 30px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .social-links a {
+            font-family: 'Manrope', sans-serif;
+            color: rgba(255, 255, 255, 0.75);
+            margin: 0 10px;
+            font-size: 14px;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            transition: color 0.3s;
+        }
+        .social-links a:hover {
+            color: #ffffff;
+        }
+        .slider {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .slide.active {
+            opacity: 1;
+        }
+        .slide-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
+            opacity: 0;
+            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+            transform: scale(1.1);
+        }
+        .slide.active .slide-overlay {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            z-index: 1;
+        }
+        h1 {
+            font-family: 'Forum', cursive;
+            font-size: 100px;
+            margin-bottom: 20px;
+            line-height: 110px;
+            letter-spacing: -5px;
+        }
+        p {
+            font-family: 'Manrope', sans-serif;
+            font-size: 17px;
+            line-height: 30px;
+            max-width: 600px;
+            margin: 0 auto 20px;
+        }
+        .btn {
+            font-family: 'Manrope', sans-serif;
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border: 1px solid white;
+            transition: background-color 0.3s;
+            font-size: 14px;
+            line-height: 55px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+        .slider-nav {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+        .slider-nav button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2em;
+            cursor: pointer;
+            outline: none;
+        }
+        .gallery {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        .gallery-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+        .gallery-item {
+            margin: 10px;
+            width: calc(33.333% - 20px);
+            max-width: 300px;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+        }
+        .close-gallery {
+            position: fixed;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .close-gallery:hover,
+        .close-gallery:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="social-links">
+            <a href="https://www.youtube.com/c/sannanthetraveller" target="_blank">YouTube</a>
+            <a href="https://www.instagram.com/sannanthetraveller" target="_blank">Instagram</a>
+        </div>
+    </header>
+
+    <div class="slider">
+        <div class="slide active" style="background-image: url('main.JPG');">
+            <div class="slide-overlay"></div>
+        </div>
+        <div class="slide" style="background-image: url('main-2.JPG');">
+            <div class="slide-overlay"></div>
+        </div>
+    </div>
+
+    <div class="content">
+        <h1>Sannan The Traveller</h1>
+        <p>Welcome to my world of adventure and exploration! I'm Sannan, a passionate traveller dedicated to sharing the beauty and diversity of our planet. Join me on my journeys as I discover new cultures, breathtaking landscapes, and unforgettable experiences.</p>
+        <a class="btn" onclick="openGallery()">Explore My Adventures</a>
+    </div>
+
+    <div class="slider-nav">
+        <button id="prevBtn">&lt;</button>
+        <button id="nextBtn">&gt;</button>
+    </div>
+
+    <div id="gallery" class="gallery">
+        <span class="close-gallery" onclick="closeGallery()">&times;</span>
+        <div class="gallery-content">
+            <div class="gallery-item"><img src="1A3A4897.JPG" alt="Adventure 1"></div>
+            <div class="gallery-item"><img src="1A3A7570.JPG" alt="Adventure 2"></div>
+            <div class="gallery-item"><img src="1A3A8685.JPG" alt="Adventure 3"></div>
+            <div class="gallery-item"><img src="1A3A9004.JPG" alt="Adventure 4"></div>
+            <div class="gallery-item"><img src="main.JPG" alt="Adventure 5"></div>
+            <div class="gallery-item"><img src="main-2.JPG" alt="Adventure 6"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            let currentSlide = 0;
+
+            function showSlide(n) {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (n + slides.length) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }
+
+            function nextSlide() {
+                showSlide(currentSlide + 1);
+            }
+
+            function prevSlide() {
+                showSlide(currentSlide - 1);
+            }
+
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+
+            setInterval(nextSlide, 5000); // Auto-advance every 5 seconds
+        });
+
+        function openGallery() {
+            document.getElementById('gallery').style.display = 'block';
+        }
+
+        function closeGallery() {
+            document.getElementById('gallery').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
